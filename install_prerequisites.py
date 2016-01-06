@@ -243,7 +243,7 @@ def exec_lines(lines):
 
 
 
-def main2():
+def main():
     ps = PackageSet()
 
     exec_lines(JDK)
