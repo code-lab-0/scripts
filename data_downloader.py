@@ -19,13 +19,13 @@ Example of the download_conf.json:
 [
 {"name": "db-name",
  "base_dir": "/home/oogasawa/data2",
- "urls": [
+ "commands": [
     "wget http://examples.com",
     "wget https://www.ogalab.net"],
 "download_type": "overwrite"},
 {"name": "db-name2",
  "base_dir": "/home/oogasawa/data2",
- "urls": [
+ "commands": [
     "wget http://examples.com",
     "wget https://www.ogalab.net"],
 "download_type": "snapshot"}
@@ -87,7 +87,7 @@ def download(item):
         p0 = subprocess.Popen("touch lock.txt", shell=True)
         p0.wait()
 
-        for u in item['urls']:
+        for u in item['commands']:
             print(u)
             p0 = subprocess.Popen(u, shell=True)
             p0.wait()
