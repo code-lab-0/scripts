@@ -31,6 +31,20 @@ Example of the download_conf.json:
 "download_type": "snapshot"}
 
 ]
+
+
+Result directory structure:
+
+.
+├── db-name
+│   └── download
+│       ├── index.html
+│       └── index.html.1
+└── db-name2
+    ├── current -> download/2016-02-25
+    └── download
+        └── 2016-02-25
+            └── index.html
 """
 
 
@@ -69,11 +83,18 @@ def download(item):
         dir_name = make_overwritten_dir(item)
 
     os.chdir(dir_name)
-
-    for u in item['urls']:
-        print(u)
-        p0 = subprocess.Popen(u, shell=True)
+    if not os.path.exists("lock.txt"):
+        p0 = subprocess.Popen("touch lock.txt", shell=True)
         p0.wait()
+
+        for u in item['urls']:
+            print(u)
+            p0 = subprocess.Popen(u, shell=True)
+            p0.wait()
+
+        p0 = subprocess.Popen("rm -f lock.txt", shell=True)
+        p0.wait()
+    
 
 
 def make_snapshot_dir(item):
