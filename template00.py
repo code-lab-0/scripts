@@ -9,6 +9,13 @@ command:
 
 """
 
+__author__ = "Osamu Ogasawara <mail@example.com>"
+__version__ = "0.0.1"
+__date__    = "01 November 2011"
+
+
+import doctest
+
 class Foo(object):
     """
     Foo encapsulates a name and an age.
@@ -24,15 +31,6 @@ class Foo(object):
         self.name = name
         self.age
 
-def bar(baz):
-    """
-    Prints baz to the display.
-    """
-    print baz
-
-if __name__ == '__main__':
-    f = Foo('John Doe', 42)
-    bar("hello world")
 
 
 """
@@ -44,12 +42,6 @@ The example module supplies one function, factorial().  For example,
 120
 """
 
-__author__ = "作者 <mail@example.com>"
-__status__ = "production"
-__version__ = "0.0.1"
-__date__    = "01 November 2011"
-
-import doctest
 
 def factorial(n):
     """Return the factorial of n, an exact integer >= 0.
@@ -100,62 +92,66 @@ def factorial(n):
     return result
 
 
+import getopt
+import sys
+
+def usage():
+    message="""
+    template00.py - A template program for a simple python script.
+    
+    USAGE:
+        python3 template00.py -t # invoke doctest.
+    """
+
+    print(message)
+
+
+def main(argv):
+    try:
+        opts, args = getopt.getopt(argv, "htn:", ["help","test","name="])
+
+        for o,a in opts:
+            if o == "--name" or "-n":
+                name = a
+                say_hello()
+            if o == "--test" or "-t":
+                doctest.testmod()
+                break
+            if o == "--help" or "-h":
+                usage()
+                break
+        
+
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+
+
+
+
+def say_hello():
+    """This function prints a greeting message, and returns True.
+
+    >>> say_hello()
+    こんにちは
+    True
+    """
+    print("こんにちは")
+    #print("Hello")
+    return True
+
+
+
+
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
-# import getopt
-# import sys
-
-# def usage():
-#     message="""
-#     template00.py - A template program for a simple python script.
-    
-#     USAGE:
-#         python3 template00.py -t # invoke doctest.
-#     """
-
-#     print(message)
-
-
-# def main(argv):
-#     try:
-#         opts, args = getopt.getopt(argv, "htn:", ["help","test","name="])
-
-#         for o,a in opts:
-#             if o == "--name" or "-n":
-#                 name = a
-#                 say_hello()
-#             if o == "--test" or "-t":
-#                 doctest.testmod()
-#                 break
-#             if o == "--help" or "-h":
-#                 usage()
-#                 break
-        
-
-#     except getopt.GetoptError:
-#         usage()
-#         sys.exit(2)
+    f = Foo('John Doe', 42)
+    bar("hello world")
 
 
 
-
-# def say_hello():
-#     """This function prints a greeting message, and returns True.
-
-#     >>> say_hello()
-#     こんにちは
-#     True
-#     """
-#     print("こんにちは")
-#     #print("Hello")
-#     return True
-
-
-
-
-
-# if __name__=="__main__":
-#     main(sys.argv[1:])
+if __name__=="__main__":
+    main(sys.argv[1:])
 
